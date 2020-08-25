@@ -39,7 +39,14 @@ app.on("ready", createWindow);
 app.disableHardwareAcceleration();
 
 ipcMain.on("image:minimize", (e, options) => {
-  console.log(options);
+  const args= Object.keys(options).map(function (key) {
+    return { [key]: options[key] };
+  });
+  console.log(args,args.length);
+  for (let i=0;i<args.length;i++){
+    console.log(typeof args[i],args[i])
+  }
+
   const err = shrinkImage(options);
   e.sender.send("minimize:done", true);
 });
@@ -48,8 +55,8 @@ async function shrinkImage({ imagePath, quality, dest }) {
   try {
     const pngQuality = quality / 100;
 
-    const files = await imageMin(["/Users/nelapati/Documents/*"], {
-      destination: "/Users/nelapati/imageshrink",
+    const files = await imageMin([slash(imagePath)], {
+      destination: dest,
       plugins: [
         imageMinMozJpeg({ quality }),
         imageMinPngQuant({ quality: [pngQuality, pngQuality] }),

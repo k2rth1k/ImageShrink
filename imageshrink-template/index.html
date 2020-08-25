@@ -62,19 +62,19 @@
       const slider = document.getElementById("slider");
       const img = document.getElementById("img");
       const output = document.getElementsByClassName("card output")[0];
-      const outputRepo = path
+      const dest = path
         .join(os.homedir(), "imageshrink")
         .replace(/\\/g, "/");
-      document.getElementById("output-path").innerText = outputRepo;
+      document.getElementById("output-path").innerText = dest;
       form.addEventListener("submit", (e) => {
         e.preventDefault();
-        const imgPath = img.files[0].path;
-        const quality = 50;
-        console.log(slider);
+        const imagePath = img.files[0].path;
+        const quality = slider.value;
+        console.log(quality);
         ipcRenderer.send("image:minimize", {
-          imgPath,
+          imagePath,
           quality,
-          outputRepo,
+          dest,
         });
       });
       ipcRenderer.on("minimize:done", (event, args) => {
