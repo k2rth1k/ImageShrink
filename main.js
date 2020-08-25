@@ -40,25 +40,25 @@ app.disableHardwareAcceleration();
 
 ipcMain.on("image:minimize", (e, options) => {
   console.log(options);
-  const err=shrinkImage(options);
-  e.sender.send("minimize:done",true)
+  const err = shrinkImage(options);
+  e.sender.send("minimize:done", true);
 });
 
 async function shrinkImage({ imagePath, quality, dest }) {
   try {
     const pngQuality = quality / 100;
 
-    const files = await imageMin(['/Users/nelapati/Documents/*'], {
-      destination: '/Users/nelapati/imageshrink',
+    const files = await imageMin(["/Users/nelapati/Documents/*"], {
+      destination: "/Users/nelapati/imageshrink",
       plugins: [
         imageMinMozJpeg({ quality }),
         imageMinPngQuant({ quality: [pngQuality, pngQuality] }),
       ],
     });
     console.log(files);
-    return null
+    return null;
   } catch (e) {
     console.log(e);
-    return e
+    return e;
   }
 }
