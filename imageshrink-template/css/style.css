@@ -1,0 +1,31 @@
+
+.container {
+	width: 400px;
+	margin-top: 70px;
+	padding: 0 20px;
+}
+
+.about {
+	width: 100%;
+}
+
+.btn {
+	width: 100%;
+}
+
+.output {
+	margin-top: 40px;
+}
+.done{
+	margin-top: 20px;
+	margin-bottom: 0;
+	width:100%;
+	height:35px;
+	background-color: #0f9d58;
+	color: white;
+	align-content: center;
+	padding-top: 8px;
+}
+#output-path {
+	font-weight: bold;
+}
