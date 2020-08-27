@@ -1,41 +1,28 @@
-const path = require("path");
-const os = require("os");
-const {
-  app,
-  BrowserWindow,
-  globalShortcut,
-  ipcMain,
-  shell,
-} = require("electron");
+const {app, BrowserWindow, ipcMain} = require('electron');
+const url = require('url');
+const path = require('path');
+require("electron-reload")(__dirname);
 const imageMin = require("imagemin");
 const imageMinMozJpeg = require("imagemin-mozjpeg");
 const imageMinPngQuant = require("imagemin-pngquant");
 const slash = require("slash");
+let win;
 
-require("electron-reload")(__dirname);
-let window;
 function createWindow() {
-  window = new BrowserWindow({
-    title: "ImageShrink",
-    width: 800,
-    height: 600,
-    webPreferences: {
-      nodeIntegration: true,
-    },
-  });
-  globalShortcut.register("CmdOrCtrl+R", () => window.reload());
-  globalShortcut.register("Cmd+X", () => {
-    window.toggleDevTools();
-  });
-  window.loadFile("imageshrink-template/index.html");
+  win = new BrowserWindow({width: 800, height: 600});
+  win.loadURL(url.format ({
+    pathname: path.join(__dirname, 'index.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
 }
 
+app.on('ready', createWindow);
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
 });
-app.on("ready", createWindow);
 app.disableHardwareAcceleration();
 
 ipcMain.on("image:minimize", (e, options) => {
